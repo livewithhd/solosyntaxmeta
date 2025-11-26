@@ -116,12 +116,12 @@
         width: 80%; /* Make buttons full-width on mobile */
     }
 
-    /* Hide nav on small screen to save space */
+    /* Hide nav UL on small screen to save space */
     nav ul {
         display: none; 
     }
     
-    nav {
-        justify-content: center;
-    }
+    /* FIX: Removed 'nav { justify-content: center; }' 
+       The Tailwind class 'justify-between' in the HTML will now correctly align 
+       the logo left and the theme toggle right on mobile. */
 }
