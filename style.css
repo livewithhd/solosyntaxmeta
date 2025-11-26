@@ -1,0 +1,127 @@
+/* --- About Section Styling --- */
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.profile-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover;
+    border: 5px solid var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+}
+
+.bio-text {
+    flex-grow: 1;
+}
+
+.bio-text p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.resume-button {
+    display: inline-block;
+    background-color: #38c172; /* A nice green color */
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.resume-button:hover {
+    background-color: #2d8f57;
+}
+
+/* --- Projects Section Adjustments --- */
+.grid-note {
+    grid-column: 1 / -1; /* Make the note span all columns */
+    text-align: center;
+    font-style: italic;
+    color: #999;
+    margin-top: 10px;
+}
+
+/* --- Contact Section Styling --- */
+
+#contact {
+    text-align: center;
+}
+
+#contact p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+.contact-links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.contact-link {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--text-color);
+    transition: background-color 0.3s ease;
+}
+
+.email-link {
+    background-color: var(--primary-color);
+}
+.email-link:hover {
+    background-color: #0056b3;
+}
+
+.github-link-contact {
+    background-color: #6e5494; /* GitHub Purple */
+}
+.github-link-contact:hover {
+    background-color: #4a3861;
+}
+
+/* --- Responsive Adjustments --- */
+
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .profile-img {
+        margin-bottom: 20px;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr; /* Stack projects vertically on mobile */
+    }
+    
+    .contact-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    .contact-link {
+        width: 80%; /* Make buttons full-width on mobile */
+    }
+
+    /* Hide nav on small screen to save space */
+    nav ul {
+        display: none; 
+    }
+    
+    nav {
+        justify-content: center;
+    }
+}

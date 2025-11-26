@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solo Syntax Meta - Dev, Artist, Crypto Bull & Community Architect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-neon': 'var(--color-primary-neon)',
+                        'secondary-dark': 'var(--color-secondary-dark)',
+                        'background-main': 'var(--color-background-main)',
+                        'text-primary': 'var(--color-text-primary)',
+                        'text-secondary': 'var(--color-text-secondary)',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'mono': ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+        
+        /* CSS Variables for Dynamic Theming */
+        .dark {
+            --color-primary-neon: #39FF14; /* Electric Green */
+            --color-secondary-dark: #1C1935; /* Darker Indigo/Card Base */
+            --color-background-main: #05001C; /* Very Deep Purple/Space Black */
+            --color-text-primary: #e5e7eb;
+            --color-text-secondary: #9ca3af;
+            --color-animated-bg: rgba(57, 255, 20, 0.05);
+        }
+
+        /* Light Mode Variables (Added for Theme Toggle functionality) */
+        :not(.dark) {
+            --color-primary-neon: #ff6600; /* Bright Orange */
+            --color-secondary-dark: #f0f0f0; /* Light Card Base */
+            --color-background-main: #ffffff; /* White Background */
+            --color-text-primary: #1f2937; /* Dark Text */
+            --color-text-secondary: #4b5563; /* Medium Text */
+            --color-animated-bg: rgba(255, 102, 0, 0.1);
+        }
+
+
+        /* --- GLOBAL BASE STYLES & LAYOUT --- */
+        body { 
+            scroll-behavior: smooth; 
+            transition: background-color 0.5s, color 0.5s;
+        }
+        section { scroll-margin-top: 80px; }
+
+        /* --- KEYFRAMES --- */
+
+        /* 1. Animated Background Grid */
+        @keyframes grid-move {
+            0% { background-position: 0 0; }
+            100% { background-position: -50px -50px; } 
+        }
+        
+        /* 2. Hero Text Animation */
+        @keyframes fade-slide-up {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 3. Subtle Card Float Animation */
+        @keyframes subtle-float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* 4. Neon Pulse for the Live Dot */
+        @keyframes neon-pulse {
+            0%, 100% { box-shadow: 0 0 5px #F87171, 0 0 10px #F87171; }
+            50% { box-shadow: 0 0 15px #DC2626, 0 0 30px #DC2626; }
+        }
+
+        /* 5. Glitch/Flicker Text Effect (for branding) */
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 #0f0, -0.05em -0.025em 0 #00f; }
+            14% { text-shadow: -0.05em -0.025em 0 #0f0, 0.025em 0.05em 0 #00f; }
+            24% { text-shadow: 0.025em 0.05em 0 #0f0, -0.05em -0.025em 0 #00f; }
+            45% { text-shadow: -0.05em 0 0 #0f0, 0.05em 0 0 #00f; }
+            70% { text-shadow: 0.025em 0.05em 0 #0f0, -0.025em 0 0 #00f; }
+            80% { text-shadow: 0.025em 0 0 #0f0, -0.05em 0 0 #00f; }
+            100% { text-shadow: -0.05em 0 0 #0f0, 0.05em 0 0 #00f; }
+        }
+
+        /* NEW KEYFRAME: Complex shape movement */
+        @keyframes shape-move {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20vw, 50vh) rotate(90deg); }
+            50% { transform: translate(-30vw, 10vh) rotate(180deg); }
+            75% { transform: translate(10vw, -30vh) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* --- STYLING APPLICATIONS --- */
+
+        /* Animated Grid Background */
+        .neon-grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, var(--color-animated-bg) 1px, transparent 1px),
+                              linear-gradient(to bottom, var(--color-animated-bg) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -10;
+            animation: grid-move 60s linear infinite;
+            transition: background-image 0.5s; /* Smooth color change */
+        }
+        
+        /* NEW: Layered Animated Shapes */
+        .animated-shapes-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -11; /* Deeper layer */
+        }
+
+        .animated-shape {
+            position: absolute;
+            background: var(--color-primary-neon);
+            opacity: 0.05;
+            transition: background 0.5s, opacity 0.5s;
+            mix-blend-mode: hard-light; /* Adds a nice blending effect */
+        }
+
+        .animated-shape:nth-child(1) {
+            width: 250px; height: 250px;
+            top: 10%; left: 5%;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Diamond */
+            animation: shape-move 35s infinite alternate-reverse ease-in-out;
+        }
+
+        .animated-shape:nth-child(2) {
+            width: 300px; height: 300px;
+            bottom: 15%; right: 10%;
+            opacity: 0.07;
+            clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%); /* Trapezoid */
+            animation: shape-move 45s infinite alternate ease-in-out;
+        }
+        
+        /* Glitch Text for Headers/Branding */
+        .glitch-text {
+            color: var(--color-primary-neon);
+            animation: glitch 4s infinite linear alternate-reverse;
+            position: relative;
+        }
+
+        /* --- ADVANCED GLASSMORHISM CARD STYLE (Unchanged) --- */
+        .glass-card {
+            background-color: var(--color-secondary-dark); 
+            backdrop-filter: blur(12px) saturate(150%);
+            -webkit-backdrop-filter: blur(12px) saturate(150%);
+            border-radius: 12px;
+            
+            /* Enhanced Neon Glow Border (Multi-Layered Shadow) */
+            box-shadow: 
+                0 0 15px rgba(57, 255, 20, 0.5), /* Inner soft glow */
+                0 0 25px rgba(57, 255, 20, 0.2), /* Outer glow */
+                inset 0 0 5px rgba(57, 255, 20, 0.3), /* Inner shadow for depth */
+                0 4px 6px rgba(0, 0, 0, 0.3); /* Base shadow */
+
+            /* Animations */
+            transition: all 0.4s ease-in-out;
+            animation: subtle-float 8s ease-in-out infinite; 
+        }
+        
+        .glass-card:hover {
+            /* Stronger glow and lift on hover */
+            box-shadow: 
+                0 0 25px var(--color-primary-neon),
+                0 0 45px var(--color-primary-neon) !important;
+            transform: translateY(-8px) scale(1.015);
+            animation: none;
+        }
+
+        /* Live Status Dot */
+        .live-dot {
+            animation: neon-pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Hero Text Animation Application */
+        .animate-hero-text { 
+            animation: fade-slide-up 1.2s ease-out forwards; 
+            opacity: 0; 
+        }
+        .hero-line-1 { animation-delay: 0.2s; }
+        .hero-line-2 { animation-delay: 0.4s; }
+        .hero-line-3 { animation-delay: 0.6s; }
+        .hero-cta { animation-delay: 0.8s; }
+    </style>
+</head>
+<body class="bg-background-main text-text-primary font-sans text-lg">
+    
+    <audio id="background-music" loop>
+        <source src="background_loop.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="animated-shapes-layer">
+        <div class="animated-shape"></div>
+        <div class="animated-shape"></div>
+    </div>
+    <div class="neon-grid-bg"></div>
+
+    <header class="sticky top-0 bg-background-main/90 backdrop-blur-lg z-50 shadow-2xl border-b border-primary-neon/30 transition duration-500">
+        <nav class="max-w-8xl mx-auto px-8 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold font-mono tracking-wider">
+                &lt;<span class="glitch-text">Solo Syntax Meta</span> /&gt;
+            </h1>
+            <div class="flex items-center space-x-10">
+                <ul class="flex space-x-10 text-xl font-medium">
+                    <li><a href="#about" class="hover:text-primary-neon transition duration-200">About</a></li>
+                    <li><a href="#meta-feed" class="hover:text-primary-neon transition duration-200">Feed</a></li>
+                    <li><a href="#skills" class="hover:text-primary-neon transition duration-200">Skills</a></li>
+                    <li><a href="#projects" class="hover:text-primary-neon transition duration-200">Projects</a></li>
+                    <li><a href="#contact" class="hover:text-primary-neon transition duration-200">Connect</a></li>
+                </ul>
+                <button id="theme-toggle" class="p-2 rounded-full text-text-primary hover:bg-secondary-dark transition duration-300 text-2xl" title="Toggle Dark/Light Mode">
+                    ☀️
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="min-h-screen flex items-center justify-center text-center bg-transparent pt-20">
+            <div class="max-w-6xl px-4">
+                <p class="text-primary-neon text-2xl mb-5 font-mono animate-hero-text hero-line-1 animate-pulse tracking-widest">[ SYNTAX META: Dev | Art | Crypto | Community ]</p>
+                <h2 class="text-8xl font-extrabold mb-6 text-text-primary leading-tight animate-hero-text hero-line-2">
+                    <span class="glitch-text">Architecting Utility</span>, Driving the Bull Market.
+                </h2>
+                <p class="text-3xl text-text-secondary mb-12 font-light animate-hero-text hero-line-3">
+                    Multi-Discipline Dev, Digital Artist, **Genuine Crypto Bull**, and Community Architect based in Canada.
+                </p>
+                <a href="https://github.com/syntaxmeta" target="_blank" id="cta-button" class="bg-primary-neon text-black px-16 py-5 rounded-full text-xl font-bold shadow-2xl shadow-primary-neon/50 hover:opacity-90 transition duration-300 transform hover:scale-[1.03] animate-hero-text hero-cta">
+                    View My Codebase &rarr;
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-32 bg-secondary-dark transition duration-500">
+            <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-start gap-20 glass-card p-12">
+                <div class="flex-grow">
+                    <h2 class="text-5xl font-bold mb-8 text-primary-neon border-b border-primary-neon/50 pb-3">
+                        <span class="text-text-primary">01.</span> THE CORE SYMBOL: Code, Creativity, and Conviction
+                    </h2>
+                    <p class="text-xl mb-6 text-text-primary leading-relaxed">
+                        I am a **full-spectrum digital architect**—I build websites, mint and promote **NFTs/Digital Art**, and operate as a genuine bull in the crypto world. My work blends high-performance code with creative art and aggressive community engagement (yes, I'm the **"Reply Guy"** on X driving promotion and discussion). I specialize in solutions that bridge technical architecture with tangible market enthusiasm.
+                    </p>
+                    <p class="text-xl mb-8 text-text-secondary leading-relaxed">
+                        My passion is fueled by diverse interests: I am a lifelong **Pokémon** fan and thrive on the competitive data analysis of **Sports** and **Gaming**. I love **adventure** and believe these diverse hobbies directly translate into highly creative and resilient problem-solving in my professional code and crypto strategies.
+                    </p>
+                    
+                    <h3 class="text-3xl font-bold mt-10 mb-5 text-primary-neon border-b border-primary-neon/50 pb-2">
+                        🏠 Home Base & Life Meta
+                    </h3>
+                    <ul class="text-xl text-text-primary space-y-3 list-disc list-inside">
+                        <li>**Location:** Proudly based in **Canada** 🇨🇦 (Living the Adventure!).</li>
+                        <li>**Family:** I'm a dedicated husband and father to **two wonderful children** 👨‍👩‍👧‍👦.</li>
+                        <li>**The Menagerie:** Our full-stack home crew includes **one dog** 🐕 and **four cats** 🐈🐈🐈🐈.</li>
+                        <li>**Core Loves:** **Code**, **Crypto**, **Gaming**, and **Sports**.</li>
+                    </ul>
+                </div>
+                <div class="flex-shrink-0 mt-8 md:mt-0">
+                    <img src="POE.png" alt="A stylized digital art portrait of Syntax Meta blending code lines and neon colors." class="w-80 h-80 rounded-full object-cover border-8 border-primary-neon shadow-2xl shadow-primary-neon/50 transition duration-300">
+                </div>
+            </div>
+        </section>
+
+        <section id="meta-feed" class="py-32 bg-background-main transition duration-500">
+            <h2 class="text-5xl font-bold text-center mb-16 text-primary-neon">
+                <span class="text-text-primary">02.</span> &nbsp;LIVE FEED / META STATUS
+            </h2>
+            <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-10">
+
+                <div class="glass-card p-8 bg-red-900/10 border-red-500/50 shadow-red-500/50">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center text-red-400">
+                        <span class="relative flex h-4 w-4 mr-3">
+                            <span class="live-dot absolute inline-flex h-full w-full rounded-full bg-red-600 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+                        </span>
+                        STATUS: LIVE ON TWITCH
+                    </h3>
+                    <p class="text-xl text-text-primary mb-2">Streaming High-Intensity Dev Work & Community Chat.</p>
+                    <p class="text-lg font-mono text-text-secondary">@twitch.tv/syntaxmeta</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <h3 class="text-2xl font-bold mb-4 text-primary-neon">CURRENT FOCUS</h3>
+                    <p class="text-xl text-text-primary mb-2">Optimizing Crypto Portfolio Data Streams for Bot Integration.</p>
+                    <p class="text-lg font-mono text-text-secondary">Project: **MetaBot Alpha v2.0** (Python, Async)</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <h3 class="text-2xl font-bold mb-4 text-primary-neon">META HOT TAKE</h3>
+                    <p class="text-xl text-text-primary mb-2">NBA defense is nonexistent in 2025.</p>
+                    <p class="text-lg font-mono text-text-secondary">Fandom: #DataNerd #NBAData</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="skills" class="py-32 bg-secondary-dark transition duration-500">
+            <h2 class="text-5xl font-bold text-center mb-16 text-primary-neon">
+                <span class="text-text-primary">03.</span> CORE COMPETENCIES
+            </h2>
+            <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <div class="glass-card p-8">
+                    <h3 class="text-3xl font-bold mb-4 text-primary-neon">Development Stack</h3>
+                    <ul class="space-y-4 text-xl text-text-primary">
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🐍</span> Python (Back-end, Bots)</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🌐</span> JS/TS (Web Architecture)</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">⚙️</span> Asynchronous/Clean Architecture</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🎨</span> Full-Stack Web Building</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8">
+                    <h3 class="text-3xl font-bold mb-4 text-primary-neon">AI & Automation</h3>
+                    <ul class="space-y-4 text-xl text-text-primary">
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🤖</span> Discord/Twitch Bot Development</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🧠</span> AI/LLM Integration & Prompt Eng.</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🛡️</span> API Interaction & Data Scraping</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🕹️</span> Gaming/Fandom Data Analysis</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8">
+                    <h3 class="text-3xl font-bold mb-4 text-primary-neon">Crypto & Art Focus</h3>
+                    <ul class="space-y-4 text-xl text-text-primary">
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🐂</span> Genuine Crypto Bull (Market Conviction)</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🖼️</span> Digital Art & NFT Creation/Minting</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">📢</span> Coin Promotion & Community Building</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">📈</span> Crypto Investment Strategy</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card p-8">
+                    <h3 class="text-3xl font-bold mb-4 text-primary-neon">Community & Meta</h3>
+                    <ul class="space-y-4 text-xl text-text-primary">
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🗣️</span> Reply Guy on X (High Engagement)</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">💻</span> Git / GitHub / Linux Environment</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">📺</span> Streaming & Content Creation</li>
+                        <li class="flex items-center"><span class="text-primary-neon mr-3">🧭</span> Adventure & Sports Enthusiast</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-32 bg-background-main transition duration-500">
+            <h2 class="text-5xl font-bold text-center mb-16 text-primary-neon">
+                <span class="text-text-primary">04.</span> FEATURED PROJECTS
+            </h2>
+            <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <div class="glass-card p-10">
+                    <h3 class="text-4xl font-bold mb-4 text-text-primary">Bouncing DVD Logo - Perfect Corner Challenge</h3>
+                    <p class="text-lg mb-4 text-text-secondary">
+                        A nostalgic web animation that recreates the classic bouncing DVD logo screensaver. It features dynamic, synchronized color cycling between the logo's neon glow and the background grid. The challenge mode includes a **Perfect Corner Counter** that tracks hits and the time interval between them using high-precision timers.
+                    </p>
+                    <p class="text-sm font-mono text-primary-neon mb-6">
+                        **Stack:** HTML5, CSS3 (Keyframes/Variables), Vanilla JavaScript.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://syntaxmeta.github.io/dvdloop/" target="_blank" class="bg-primary-neon text-black px-8 py-3 rounded-full font-bold hover:opacity-90 transition duration-300">
+                            View Live Demo &rarr;
+                        </a>
+                        <a href="https://github.com/syntaxmeta/dvdloop" target="_blank" class="bg-gray-700 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-600 transition duration-300">
+                            View Codebase &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <div class="glass-card p-10">
+                    <h3 class="text-4xl font-bold mb-4 text-text-primary">Press-to-Play Piano - Interactive Synth</h3>
+                    <p class="text-lg mb-4 text-text-secondary">
+                        A dynamic, audio-visual synthesizer application. It uses the **Tone.js** library to play musical chords based on screen taps and an **HTML Canvas** to launch physics-based, gravity-affected particle effects. Features a real-time settings panel to adjust physics variables like gravity and friction.
+                    </p>
+                    <p class="text-sm font-mono text-primary-neon mb-6">
+                        **Stack:** HTML5, Tailwind CSS, Vanilla JS, Tone.js, Canvas.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://syntaxmeta.github.io/press-to-play-piano/" target="_blank" class="bg-primary-neon text-black px-8 py-3 rounded-full font-bold hover:opacity-90 transition duration-300">
+                            View Live Demo &rarr;
+                        </a>
+                        <a href="https://github.com/syntaxmeta/press-to-play-piano" target="_blank" class="bg-gray-700 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-600 transition duration-300">
+                            View Codebase &rarr;
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="contact" class="py-32 bg-secondary-dark transition duration-500">
+            <div class="max-w-7xl mx-auto px-8">
+                <h2 class="text-5xl font-bold text-center mb-16 text-primary-neon">
+                    <span class="text-text-primary">05.</span> CONNECT WITH THE META
+                </h2>
+                
+                <div class="glass-card p-12 grid grid-cols-1 md:grid-cols-2 gap-10">
+                    
+                    <div>
+                        <h3 class="text-3xl font-bold mb-6 text-primary-neon border-b border-primary-neon/30 pb-3">
+                            Direct Communication Link
+                        </h3>
+                        <p class="text-xl mb-8 text-text-secondary">
+                            For professional inquiries, projects, and high-level collaborations, use the primary channels below.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <a href="officialhntrllc@gmail.com" class="block w-full text-center bg-primary-neon text-black px-12 py-4 rounded-lg font-bold text-xl hover:opacity-90 transition duration-300 transform hover:scale-[1.02] shadow-xl shadow-primary-neon/50">
+                                Email Me Directly
+                            </a>
+                            <a href="https://x.com/solowebthree" target="_blank" class="block w-full text-center bg-gray-700 text-white px-12 py-4 rounded-lg font-bold text-xl hover:bg-gray-600 transition duration-300 transform hover:scale-[1.02] shadow-xl">
+                                Connect on X (Twitter)
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-3xl font-bold mb-6 text-primary-neon border-b border-primary-neon/30 pb-3">
+                            Meta Channels & Data Access
+                        </h3>
+                        <div class="space-y-5 text-xl text-text-secondary font-mono">
+                            
+                            <p class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <span class="text-text-primary">Twitch Stream:</span>
+                                <a href="https://www.twitch.tv/syntaxmeta" target="_blank" class="text-primary-neon hover:underline">/syntaxmeta</a>
+                            </p>
+                            
+                            <p class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <span class="text-text-primary">YouTube Content:</span>
+                                <a href="https://www.youtube.com/channel/UCow92n4QY0hT0fRknnr8z7g" target="_blank" class="text-primary-neon hover:underline">Video Channel</a>
+                            </p>
+                            
+                            <p class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <span class="text-text-primary">Codebase Access:</span>
+                                <a href="https://github.com/syntaxmeta" target="_blank" class="text-primary-neon hover:underline">GitHub/syntaxmeta</a>
+                            </p>
+                            
+                            <p class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <span class="text-text-primary">Phone (Business):</span>
+                                <span class="text-primary-neon">(347) 450-8433</span>
+                            </p>
+                            
+                            <p class="flex justify-between items-center">
+                                <span class="text-text-primary">Email (Backup):</span>
+                                <span class="text-primary-neon">officialhntrllc@gmail.com</span>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-background-main border-t border-primary-neon/30 py-8 text-center text-text-secondary text-base transition duration-500">
+        <p>&copy; 2025 Solo Syntax Meta | All Rights Reserved. | Designed and Architected on Linux.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('background-music');
+            const themeToggle = document.getElementById('theme-toggle');
+            const rootHtml = document.documentElement;
+
+            // --- 1. Audio Playback Logic ---
+
+            // Attempt to play music on load (will fail in most modern browsers unless muted)
+            audio.volume = 0.4; // Set volume to 40%
+            audio.play().catch(e => {
+                console.log("Autoplay failed. Waiting for user interaction.", e);
+            });
+
+            // This ensures audio starts unmuted as soon as the user clicks or scrolls
+            const startAudio = () => {
+                if (audio.paused) {
+                    audio.play().catch(e => {
+                        console.error("Audio interaction play failed:", e);
+                    });
+                }
+                // Remove listener after first successful attempt/interaction
+                document.removeEventListener('click', startAudio);
+                document.removeEventListener('scroll', startAudio);
+            };
+
+            document.addEventListener('click', startAudio);
+            document.addEventListener('scroll', startAudio);
+
+
+            // --- 2. Theme Toggle Logic ---
+
+            // Check local storage for theme preference or default to system preference
+            const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            
+            if (currentTheme === 'light') {
+                rootHtml.classList.remove('dark');
+                themeToggle.textContent = '🌙'; // Moon icon for switching to dark mode
+            } else {
+                rootHtml.classList.add('dark');
+                themeToggle.textContent = '☀️'; // Sun icon for switching to light mode
+            }
+
+            themeToggle.addEventListener('click', () => {
+                if (rootHtml.classList.contains('dark')) {
+                    rootHtml.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.textContent = '🌙';
+                } else {
+                    rootHtml.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.textContent = '☀️';
+                }
+            });
+        });
+    </script>
+
+    <script src="script.js"></script> 
+</body>
+</html>
